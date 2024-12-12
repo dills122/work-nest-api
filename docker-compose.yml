@@ -1,0 +1,30 @@
+name: work-nest
+
+services:
+  # TODO update this if I have time
+  # api:
+  #   image: node:20-alpine
+  #   command: sh -c "npm install && npm run dev"
+  #   ports:
+  #     - 3000:3000
+  #   working_dir: /api
+  #   volumes:
+  #     - ./:/api
+  #   environment:
+  #     MYSQL_HOST: mysql
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: <your-password>
+  #     MYSQL_DB: todos
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - work-nest-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DB: db
+
+volumes:
+  work-nest-mysql-data:
