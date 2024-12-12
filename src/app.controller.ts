@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task } from '@prisma/client';
@@ -20,8 +21,8 @@ export class TasksController {
   }
 
   @Get(':id')
-  async getTaskById(@Param('id') id: number): Promise<Task> {
-    return await this.taskService.getTaskById(id);
+  async getTaskById(@Param('id') id: string): Promise<Task> {
+    return await this.taskService.getTaskById(parseInt(id));
   }
 
   @Post()
@@ -30,15 +31,23 @@ export class TasksController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updatedTask: Task): Promise<number> {
+  update(@Param('id') id: string, @Body() updatedTask: Task): Promise<number> {
     return this.taskService.updateTask({
       ...updatedTask,
-      id,
+      id: parseInt(id),
+    });
+  }
+
+  @Put(':id')
+  replace(@Param('id') id: string, @Body() updatedTask: Task): Promise<number> {
+    return this.taskService.updateTask({
+      ...updatedTask,
+      id: parseInt(id),
     });
   }
 
   @Delete(':id')
-  async deleteTask(@Param('id') id: number): Promise<number> {
-    return await this.taskService.deleteTask(id);
+  async deleteTask(@Param('id') id: string): Promise<number> {
+    return await this.taskService.deleteTask(parseInt(id));
   }
 }
